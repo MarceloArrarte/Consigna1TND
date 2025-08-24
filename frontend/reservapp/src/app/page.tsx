@@ -184,11 +184,10 @@ const NewsApp: React.FC = () => {
               No hay noticias cargadas
             </h3>
             <p className="text-gray-500">
-              Haz clic en "Cargar Noticias" para ver los últimos titulares
+              Haz clic en &quot;Cargar Noticias&quot; para ver los últimos titulares
             </p>
           </div>
         )}
-
       </div>
     </div>
   );
