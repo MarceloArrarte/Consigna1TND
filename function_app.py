@@ -49,5 +49,8 @@ def GetNews(req: func.HttpRequest) -> func.HttpResponse:
     return func.HttpResponse(
         json.dumps(mock_news, ensure_ascii=False),
         mimetype="application/json",
-        status_code=200
+        status_code=200,
+        headers={
+            "Access-Control-Allow-Origin": "http://localhost:3000"
+        }
     )

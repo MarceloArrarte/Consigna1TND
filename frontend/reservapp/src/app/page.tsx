@@ -65,7 +65,7 @@ const NewsApp: React.FC = () => {
     setError("");
 
     try {
-      const response = await fetch("/api/GetNews");
+      const response = await fetch("http://localhost:7071/api/GetNews");
       if (!response.ok) {
         throw new Error(`HTTP error! status: ${response.status}`);
       }
