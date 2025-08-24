@@ -1,103 +1,197 @@
-import Image from "next/image";
+"use client"
 
-export default function Home() {
+import React, { useState } from "react";
+import { RefreshCw, Newspaper } from "lucide-react";
+
+interface NewsItem {
+  id: number;
+  title: string;
+  source: string;
+  publishedAt: string;
+  url: string;
+}
+
+const NewsApp: React.FC = () => {
+  const [news, setNews] = useState<NewsItem[]>([]);
+  const [loading, setLoading] = useState<boolean>(false);
+  const [error, setError] = useState<string>("");
+
+  // Datos de ejemplo para simular una API de noticias
+  const mockNews: NewsItem[] = [
+    {
+      id: 1,
+      title:
+        "Avances en inteligencia artificial revolucionan la industria tecnológica",
+      source: "TechNews",
+      publishedAt: "2025-08-23T10:30:00Z",
+      url: "#",
+    },
+    {
+      id: 2,
+      title:
+        "Nueva política económica impulsa el crecimiento del sector empresarial",
+      source: "Economía Hoy",
+      publishedAt: "2025-08-23T09:15:00Z",
+      url: "#",
+    },
+    {
+      id: 3,
+      title:
+        "Descubrimiento científico podría cambiar el tratamiento de enfermedades",
+      source: "Ciencia y Salud",
+      publishedAt: "2025-08-23T08:45:00Z",
+      url: "#",
+    },
+    {
+      id: 4,
+      title:
+        "Cambios climáticos afectan la agricultura mundial según nuevo estudio",
+      source: "Verde Noticias",
+      publishedAt: "2025-08-23T07:20:00Z",
+      url: "#",
+    },
+    {
+      id: 5,
+      title:
+        "Innovaciones en energías renovables prometen un futuro sostenible",
+      source: "Energía Limpia",
+      publishedAt: "2025-08-23T06:00:00Z",
+      url: "#",
+    },
+  ];
+
+  const loadNews = async (): Promise<void> => {
+    setLoading(true);
+    setError("");
+
+    try {
+      // Simulamos una llamada a API con un delay
+      await new Promise((resolve) => setTimeout(resolve, 1500));
+
+      // En una implementación real, aquí harías el fetch a tu API
+      // const response = await fetch('/api/news');
+      // const data = await response.json();
+
+      setNews(mockNews);
+    } catch (err) {
+      setError("Error al cargar las noticias. Por favor, intenta nuevamente.");
+      console.error("Error loading news:", err);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const formatDate = (dateString: string): string => {
+    const date = new Date(dateString);
+    return date.toLocaleDateString("es-ES", {
+      year: "numeric",
+      month: "short",
+      day: "numeric",
+      hour: "2-digit",
+      minute: "2-digit",
+    });
+  };
+
   return (
-    <div className="font-sans grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20">
-      <main className="flex flex-col gap-[32px] row-start-2 items-center sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol className="font-mono list-inside list-decimal text-sm/6 text-center sm:text-left">
-          <li className="mb-2 tracking-[-.01em]">
-            Get started by editing{" "}
-            <code className="bg-black/[.05] dark:bg-white/[.06] font-mono font-semibold px-1 py-0.5 rounded">
-              src/app/page.tsx
-            </code>
-            .
-          </li>
-          <li className="tracking-[-.01em]">
-            Save and see your changes instantly.
-          </li>
-        </ol>
-
-        <div className="flex gap-4 items-center flex-col sm:flex-row">
-          <a
-            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:w-auto"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
-            />
-            Deploy now
-          </a>
-          <a
-            className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 w-full sm:w-auto md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Read our docs
-          </a>
+    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 py-8 px-4">
+      <div className="max-w-4xl mx-auto">
+        {/* Header */}
+        <div className="text-center mb-8">
+          <div className="flex items-center justify-center mb-4">
+            <Newspaper className="w-12 h-12 text-indigo-600 mr-3" />
+            <h1 className="text-4xl font-bold text-gray-800">
+              Titulares de Noticias
+            </h1>
+          </div>
+          <p className="text-gray-600 text-lg">
+            Mantente informado con las últimas noticias
+          </p>
         </div>
-      </main>
-      <footer className="row-start-3 flex gap-[24px] flex-wrap items-center justify-center">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
-          />
-          Learn
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
-      </footer>
+
+        {/* Load Button */}
+        <div className="text-center mb-8">
+          <button
+            onClick={loadNews}
+            disabled={loading}
+            className={`
+              inline-flex items-center px-6 py-3 text-white font-semibold rounded-lg
+              transition-all duration-200 transform hover:scale-105 focus:outline-none
+              focus:ring-4 focus:ring-indigo-300 shadow-lg
+              ${
+                loading
+                  ? "bg-gray-400 cursor-not-allowed"
+                  : "bg-indigo-600 hover:bg-indigo-700 active:scale-95"
+              }
+            `}
+          >
+            <RefreshCw
+              className={`w-5 h-5 mr-2 ${loading ? "animate-spin" : ""}`}
+            />
+            {loading ? "Cargando noticias..." : "Cargar Noticias"}
+          </button>
+        </div>
+
+        {/* Error Message */}
+        {error && (
+          <div className="mb-6 p-4 bg-red-100 border border-red-400 text-red-700 rounded-lg">
+            <p className="font-medium">Error:</p>
+            <p>{error}</p>
+          </div>
+        )}
+
+        {/* News List */}
+        {news.length > 0 && (
+          <div className="space-y-4">
+            <h2 className="text-2xl font-bold text-gray-800 mb-6 text-center">
+              Últimas Noticias ({news.length})
+            </h2>
+
+            <div className="grid gap-4 md:grid-cols-1 lg:grid-cols-2">
+              {news.map((item) => (
+                <div
+                  key={item.id}
+                  className="bg-white rounded-lg shadow-md hover:shadow-lg transition-shadow duration-200 p-6 border border-gray-200"
+                >
+                  <div className="flex flex-col h-full">
+                    <h3 className="text-lg font-semibold text-gray-800 mb-3 line-clamp-2">
+                      {item.title}
+                    </h3>
+
+                    <div className="flex-grow"></div>
+
+                    <div className="flex justify-between items-center text-sm text-gray-600 mt-4">
+                      <span className="font-medium bg-indigo-100 text-indigo-800 px-2 py-1 rounded">
+                        {item.source}
+                      </span>
+                      <span>{formatDate(item.publishedAt)}</span>
+                    </div>
+
+                    <button className="mt-3 text-indigo-600 hover:text-indigo-800 font-medium text-sm transition-colors duration-200">
+                      Leer más →
+                    </button>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
+
+        {/* Empty State */}
+        {!loading && news.length === 0 && !error && (
+          <div className="text-center py-12">
+            <Newspaper className="w-24 h-24 text-gray-300 mx-auto mb-4" />
+            <h3 className="text-xl font-semibold text-gray-600 mb-2">
+              No hay noticias cargadas
+            </h3>
+            <p className="text-gray-500">
+              Haz clic en "Cargar Noticias" para ver los últimos titulares
+            </p>
+          </div>
+        )}
+
+      </div>
     </div>
   );
-}
+};
+
+export default NewsApp;
