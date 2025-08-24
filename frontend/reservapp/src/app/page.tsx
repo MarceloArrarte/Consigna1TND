@@ -65,14 +65,12 @@ const NewsApp: React.FC = () => {
     setError("");
 
     try {
-      // Simulamos una llamada a API con un delay
-      await new Promise((resolve) => setTimeout(resolve, 1500));
-
-      // En una implementación real, aquí harías el fetch a tu API
-      // const response = await fetch('/api/news');
-      // const data = await response.json();
-
-      setNews(mockNews);
+      const response = await fetch("/api/GetNews");
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+      const data: NewsItem[] = await response.json();
+      setNews(data);
     } catch (err) {
       setError("Error al cargar las noticias. Por favor, intenta nuevamente.");
       console.error("Error loading news:", err);
