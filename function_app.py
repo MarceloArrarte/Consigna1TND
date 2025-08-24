@@ -54,3 +54,17 @@ def GetNews(req: func.HttpRequest) -> func.HttpResponse:
             "Access-Control-Allow-Origin": "http://localhost:3000"
         }
     )
+
+
+@app.route(route="LogAccess")
+def LogAccess(req: func.HttpRequest) -> func.HttpResponse:
+    logging.info('Python HTTP trigger function processed a request.')
+
+    return func.HttpResponse(
+        json.dumps({"message": "Access logged"}, ensure_ascii=False),
+        mimetype="application/json",
+        status_code=200,
+        headers={
+            "Access-Control-Allow-Origin": "http://localhost:3000"
+        }
+    )
