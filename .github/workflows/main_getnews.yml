@@ -8,6 +8,10 @@ on:
   push:
     branches:
       - main
+    paths:
+      - 'function_app.py'
+      - 'host.json'
+      - 'requirements.txt'
   workflow_dispatch:
 
 env:
@@ -40,7 +44,7 @@ jobs:
       # Optional: Add step to run tests here
 
       - name: Zip artifact for deployment
-        run: zip release.zip venv function_app.py -r
+        run: zip release.zip venv function_app.py host.json requirements.txt -r
 
       - name: Upload artifact for deployment job
         uses: actions/upload-artifact@v4
@@ -83,3 +87,4 @@ jobs:
           package: ${{ env.AZURE_FUNCTIONAPP_PACKAGE_PATH }}
 
           
+
