@@ -12,6 +12,7 @@ on:
       - 'function_app.py'
       - 'host.json'
       - 'requirements.txt'
+      - '.github/workflows/main_getnews.yml'
   workflow_dispatch:
 
 env:
@@ -87,4 +88,5 @@ jobs:
           package: ${{ env.AZURE_FUNCTIONAPP_PACKAGE_PATH }}
 
           
+
 
