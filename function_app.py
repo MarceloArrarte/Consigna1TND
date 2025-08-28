@@ -38,7 +38,7 @@ new_object = {
               "publishedAt": None
           }
 
-@app.function_name(name="GetNews")
+#@app.function_name(name="GetNews")
 @app.route(route="GetNews", methods=['GET'])
 def GetNews(req: func.HttpRequest) -> func.HttpResponse:
     logging.info('Python HTTP trigger function processed a request.')
@@ -99,7 +99,7 @@ def GetNews(req: func.HttpRequest) -> func.HttpResponse:
     
     
 
-@app.function_name(name="LogAccess")
+#@app.function_name(name="LogAccess")
 @app.route(route="LogAccess", methods=['POST'])
 def LogAccess(req: func.HttpRequest) -> func.HttpResponse:
     logging.info('Python HTTP trigger function processed a request.')
