@@ -102,7 +102,7 @@ const NewsApp: React.FC = () => {
             </h1>
           </div>
           <p className="text-gray-600 text-lg">
-            Mantente informado con las últimas noticias
+            Mantenete informado con las últimas noticias
           </p>
         </div>
 
