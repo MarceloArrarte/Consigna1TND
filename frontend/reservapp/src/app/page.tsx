@@ -7,70 +7,45 @@ interface NewsItem {
   id: number;
   title: string;
   source: string;
+  author: string;
+  description: string;
   publishedAt: string;
   url: string;
+  urlToImage: string;
 }
 
 const NewsApp: React.FC = () => {
   const [news, setNews] = useState<NewsItem[]>([]);
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string>("");
+  const retryLimit: number = parseInt(process.env.NEXT_MAX_RETRY_LOG_NEWS ?? "3", 10);
 
-  // Datos de ejemplo para simular una API de noticias
-  const mockNews: NewsItem[] = [
-    {
-      id: 1,
-      title:
-        "Avances en inteligencia artificial revolucionan la industria tecnológica",
-      source: "TechNews",
-      publishedAt: "2025-08-23T10:30:00Z",
-      url: "#",
-    },
-    {
-      id: 2,
-      title:
-        "Nueva política económica impulsa el crecimiento del sector empresarial",
-      source: "Economía Hoy",
-      publishedAt: "2025-08-23T09:15:00Z",
-      url: "#",
-    },
-    {
-      id: 3,
-      title:
-        "Descubrimiento científico podría cambiar el tratamiento de enfermedades",
-      source: "Ciencia y Salud",
-      publishedAt: "2025-08-23T08:45:00Z",
-      url: "#",
-    },
-    {
-      id: 4,
-      title:
-        "Cambios climáticos afectan la agricultura mundial según nuevo estudio",
-      source: "Verde Noticias",
-      publishedAt: "2025-08-23T07:20:00Z",
-      url: "#",
-    },
-    {
-      id: 5,
-      title:
-        "Innovaciones en energías renovables prometen un futuro sostenible",
-      source: "Energía Limpia",
-      publishedAt: "2025-08-23T06:00:00Z",
-      url: "#",
-    },
-  ];
+  // Invocación de función de logueo con reintento
+  const writeLog = async (counter: number = 0): Promise<void> => {
+    try {
+      const response = await fetch(`${process.env.NEXT_PUBLIC_GET_NEWS_BASE}/api/LogAccess`, { method: 'POST' });
+      if (!response.ok && counter < retryLimit) {
+        await writeLog(counter + 1)
+      }
+    } catch (error) {
+      await writeLog(counter + 1)
+    }
+  }
+
 
   const loadNews = async (): Promise<void> => {
     setLoading(true);
     setError("");
 
     try {
-      const response = await fetch("/api/GetNews");
+      const response = await fetch(`${process.env.NEXT_PUBLIC_GET_NEWS_BASE}/api/GetNews`);
+      writeLog()
       if (!response.ok) {
         throw new Error(`HTTP error! status: ${response.status}`);
       }
       const data: NewsItem[] = await response.json();
       setNews(data);
+
     } catch (err) {
       setError("Error al cargar las noticias. Por favor, intenta nuevamente.");
       console.error("Error loading news:", err);
@@ -89,6 +64,12 @@ const NewsApp: React.FC = () => {
       minute: "2-digit",
     });
   };
+
+
+  const leerMas = (url: string) => {
+    window.open(url, "_blank", "noopener,noreferrer");
+  }
+
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 py-8 px-4">
@@ -115,10 +96,9 @@ const NewsApp: React.FC = () => {
               inline-flex items-center px-6 py-3 text-white font-semibold rounded-lg
               transition-all duration-200 transform hover:scale-105 focus:outline-none
               focus:ring-4 focus:ring-indigo-300 shadow-lg
-              ${
-                loading
-                  ? "bg-gray-400 cursor-not-allowed"
-                  : "bg-indigo-600 hover:bg-indigo-700 active:scale-95"
+              ${loading
+                ? "bg-gray-400 cursor-not-allowed"
+                : "bg-indigo-600 hover:bg-indigo-700 active:scale-95"
               }
             `}
           >
@@ -151,6 +131,15 @@ const NewsApp: React.FC = () => {
                   className="bg-white rounded-lg shadow-md hover:shadow-lg transition-shadow duration-200 p-6 border border-gray-200"
                 >
                   <div className="flex flex-col h-full">
+                    {/* Imagen de la noticia */}
+                    {item.urlToImage && (
+                      <img
+                        src={item.urlToImage}
+                        alt={item.title}
+                        className="w-full h-48 mb-4 object-cover"
+                      />
+                    )}
+
                     <h3 className="text-lg font-semibold text-gray-800 mb-3 line-clamp-2">
                       {item.title}
                     </h3>
@@ -164,7 +153,9 @@ const NewsApp: React.FC = () => {
                       <span>{formatDate(item.publishedAt)}</span>
                     </div>
 
-                    <button className="mt-3 text-indigo-600 hover:text-indigo-800 font-medium text-sm transition-colors duration-200">
+                    <button
+                      onClick={() => leerMas(item.url)}
+                      className="mt-3 text-indigo-600 hover:text-indigo-800 font-medium text-sm transition-colors duration-200 cursor-pointer">
                       Leer más →
                     </button>
                   </div>
