@@ -61,7 +61,7 @@ def LogAccess(req: func.HttpRequest) -> func.HttpResponse:
     logging.info('Python HTTP trigger function processed a request.')
 
     return func.HttpResponse(
-        json.dumps({"message": "Access logged, smart deploy enabled"}, ensure_ascii=False),
+        json.dumps({"message": "Access logged, smart deploy enabled!!!"}, ensure_ascii=False),
         mimetype="application/json",
         status_code=200,
         headers={
