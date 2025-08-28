@@ -18,7 +18,7 @@ const NewsApp: React.FC = () => {
   const [news, setNews] = useState<NewsItem[]>([]);
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string>("");
-  const retryLimit: number = parseInt(process.env.NEXT_MAX_RETRY_LOG_NEWS ?? "3", 10);
+  const retryLimit: number = parseInt(process.env.NEXT_PUBLIC_MAX_RETRY_LOG_NEWS ?? "3", 10);
 
   // Invocación de función de logueo con reintento
   const writeLog = async (counter: number = 0): Promise<void> => {
