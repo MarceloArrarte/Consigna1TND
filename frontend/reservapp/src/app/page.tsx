@@ -21,7 +21,7 @@ const NewsApp: React.FC = () => {
     {
       id: 1,
       title:
-        "Avances en inteligencia artificial revolucionan la industria tecnológica",
+        "Avances en IA revolucionan la industria tecnológica",
       source: "TechNews",
       publishedAt: "2025-08-23T10:30:00Z",
       url: "#",
