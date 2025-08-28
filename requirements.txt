@@ -2,12 +2,16 @@
 # Ref: aka.ms/functions-azure-monitor-python
 # azure-monitor-opentelemetry
 
+# Azure Functions runtime
 azure-functions
-logging
-json
-os
+
+# Azure Monitor (telemetría) – opcional
+# azure-monitor-opentelemetry
+
+# Azure Table Storage SDK
+azure-data-tables
+azure-core
+
+# HTTP requests
 requests
-copy
-azure.data.tables
-azure.core.exceptions
-uuid
+
