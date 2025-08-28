@@ -3,3 +3,11 @@
 # azure-monitor-opentelemetry
 
 azure-functions
+logging
+json
+os
+requests
+copy
+azure.data.tables
+azure.core.exceptions
+uuid
