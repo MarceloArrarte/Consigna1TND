@@ -52,7 +52,7 @@ jobs:
           output_location: "out" # Built app content directory - optional
           github_id_token: ${{ steps.idtoken.outputs.result }}
         env:
-          NEXT_PUBLIC_GET_NEWS_BASE: "https://getnews.azurewebsites.net"
+          NEXT_PUBLIC_GET_NEWS_BASE: "https://salmon-sky-0eada6c0f.1.azurestaticapps.net"
           NEXT_MAX_RETRY_LOG_NEWS: "3"
           ###### End of Repository/Build Configurations ######
 
