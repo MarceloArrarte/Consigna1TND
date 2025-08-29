@@ -34,18 +34,19 @@ jobs:
 
       - name: Create and start virtual environment
         run: |
+          cd backend
           python -m venv venv
           source venv/bin/activate
 
       - name: Install dependencies
-        run: pip install -r backend/requirements.txt   # 👈 ahora busca en backend
+        run: pip install -r backend/requirements.txt
 
       # Optional: run tests here
 
       - name: Zip artifact for deployment
         run: |
           cd backend
-          zip -r ../release.zip *                     # 👈 empaqueta solo backend
+          zip -r ../release.zip *
 
       - name: Upload artifact for deployment job
         uses: actions/upload-artifact@v4
@@ -68,7 +69,7 @@ jobs:
 
       - name: Unzip artifact for deployment
         run: |
-          unzip release.zip -d backend
+          unzip release.zip
           rm release.zip
 
       - name: Login to Azure
@@ -84,7 +85,7 @@ jobs:
         with:
           app-name: 'GetNews'
           slot-name: 'Production'
-          package: './backend'    # 👈 el mismo que en build
+          package: '.'
 
 
 
