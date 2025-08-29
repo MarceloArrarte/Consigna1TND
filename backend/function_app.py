@@ -11,6 +11,7 @@ import uuid
 
 app = func.FunctionApp(http_auth_level=func.AuthLevel.ANONYMOUS)
 
+# trigger pipeline
 
 connection_string = os.environ["DEPLOYMENT_STORAGE_CONNECTION_STRING"]
 table_name =  os.environ["AZURE_STORAGE_TABLE"]
