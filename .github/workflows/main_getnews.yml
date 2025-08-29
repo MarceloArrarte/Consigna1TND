@@ -69,8 +69,16 @@ jobs:
 
       - name: Unzip artifact for deployment
         run: |
-          unzip release.zip
+          mkdir backend
+          unzip release.zip -d backend
           rm release.zip
+
+      - name: Encontrar el norte
+        run: |
+          pwd
+          ls -la
+          cd backend
+          ls -la
 
       - name: Login to Azure
         uses: azure/login@v2
@@ -85,7 +93,4 @@ jobs:
         with:
           app-name: 'GetNews'
           slot-name: 'Production'
-          package: '.'
-
-
-
+          package: './backend'
