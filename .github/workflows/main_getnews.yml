@@ -9,7 +9,9 @@ on:
     branches:
       - main
     paths:
-      - 'backend/**'
+      - 'function_app.py'
+      - 'host.json'
+      - 'requirements.txt'
       - '.github/workflows/main_getnews.yml'
   workflow_dispatch:
 
@@ -34,19 +36,17 @@ jobs:
 
       - name: Create and start virtual environment
         run: |
-          cd backend
           python -m venv venv
           source venv/bin/activate
 
       - name: Install dependencies
-        run: pip install -r backend/requirements.txt
+        run: pip install -r requirements.txt
 
       # Optional: run tests here
 
       - name: Zip artifact for deployment
         run: |
-          cd backend
-          zip -r ../release.zip *
+          zip -r release.zip function_app.py host.json requirements.txt venv
 
       - name: Upload artifact for deployment job
         uses: actions/upload-artifact@v4
@@ -69,15 +69,12 @@ jobs:
 
       - name: Unzip artifact for deployment
         run: |
-          mkdir backend
-          unzip release.zip -d backend
+          unzip release.zip
           rm release.zip
 
       - name: Encontrar el norte
         run: |
           pwd
-          ls -la
-          cd backend
           ls -la
 
       - name: Login to Azure
@@ -93,4 +90,4 @@ jobs:
         with:
           app-name: 'GetNews'
           slot-name: 'Production'
-          package: './backend'
+          package: './'
